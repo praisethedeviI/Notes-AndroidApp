@@ -11,11 +11,14 @@ public class AddNoteActivity extends AppCompatActivity {
 
     private EditText text;
 
+    private SharedPreferencesHelper mSharedPreferencesHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         text = findViewById(R.id.text);
+        mSharedPreferencesHelper = new SharedPreferencesHelper(AddNoteActivity.this);
     }
 
     public void onAddClick(View view) {
@@ -27,10 +30,11 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     private void addToArray() {
+        Note note = new Note(text.getText().toString());
         if (NotesActivity.leftHeight <= NotesActivity.rightHeight) {
-            NotesActivity.leftList.add(new Note(text.getText().toString()));
+            mSharedPreferencesHelper.AddNote(note, 0);
         } else {
-            NotesActivity.rightList.add(new Note(text.getText().toString()));
+            mSharedPreferencesHelper.AddNote(note, 1);
         }
     }
 }
